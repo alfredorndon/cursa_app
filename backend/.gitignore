@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/ # Esto es crucial para ignorar tu entorno virtual
+*.env # Archivos de entorno para Django
+.env.*
+db.sqlite3 # Tu base de datos SQLite
+media/ # Si subes archivos de usuario, no los versiones
+static/ # Archivos estáticos recolectados
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Logs
+*.log
+
+# Docker
+.dockerignore
+
+# Otros
+/.DS_Store
+/manage.pyc

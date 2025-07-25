@@ -1,0 +1,39 @@
+# Archivos de sistema y carpetas de OS
+.DS_Store
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+
+# Ignorar archivos del IDE (Visual Studio Code, IntelliJ, etc.)
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Ignorar entorno virtual de Python
+backend/venv/
+
+# Ignorar dependencias de Node.js (se manejará en frontend/.gitignore, pero es buena práctica aquí también)
+frontend/node_modules/
+frontend/build/
+frontend/dist/
+frontend/out/
+
+# Archivos de entorno y credenciales (¡MUY IMPORTANTE!)
+*.env
+.env.*
+!.env.example # Si tienes un .env.example que quieres subir
+
+# Archivos de logs y bases de datos temporales
+*.log
+*.sqlite3
+db.sqlite3
+
+# Archivos de build y empaquetado
+*.zip
+*.tar.gz
+*.rar
+
+# Archivos de caché generales
+*.cache
