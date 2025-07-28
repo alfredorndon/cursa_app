@@ -1,23 +1,28 @@
-"""
-URL configuration for backend project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+
+# Importa tus ViewSets de tu app malla_curricular
+# Asegúrate de que las clases UsuarioViewSet, UniversidadViewSet, etc.,
+# estén correctamente definidas en malla_curricular/views.py
+from malla_curricular.views import (
+    UsuarioViewSet, UniversidadViewSet, PeriodoViewSet,
+    CarreraViewSet, MateriaViewSet, MateriaUsuarioViewSet
+)
+
+# Configura el Router de DRF para tus ViewSets
+router = DefaultRouter()
+router.register(r'usuarios', UsuarioViewSet)
+router.register(r'universidades', UniversidadViewSet)
+router.register(r'periodos', PeriodoViewSet)
+router.register(r'carreras', CarreraViewSet)
+router.register(r'materias', MateriaViewSet)
+router.register(r'mi-progreso', MateriaUsuarioViewSet, basename='materiausuario')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('malla_curricular.urls')), # Todas tus APIs estarán bajo /api/
+    # Esta línea incluye todas las URLs generadas por tus ViewSets de DRF bajo /api/
+    path('api/', include(router.urls)),
+    # Esta línea es para las URLs de autenticación de DRF, como /api-auth/login/ y /api-auth/logout/
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]

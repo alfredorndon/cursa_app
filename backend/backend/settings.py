@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'malla_curricular.Usuario'
 
 # Application definition
 
@@ -126,3 +127,19 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication', # Para la autenticación basada en sesión (útil para el navegador y el admin)
+        'rest_framework.authentication.BasicAuthentication', # Opcional: para autenticación básica
+        # Puedes añadir otras autenticaciones como TokenAuthentication más adelante:
+        # 'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny', # Permite acceso a todos por defecto (luego lo restringes en ViewSets)
+        # O puedes empezar más restrictivo:
+        # 'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10 # Número de elementos por página en las respuestas de la API
+}
