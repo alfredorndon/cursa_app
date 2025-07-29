@@ -1,19 +1,58 @@
 ---
-import '../styles/global.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import * as bootstrap from 'bootstrap';
----
+// frontend/src/pages/index.astro
+let universidades = [];
+let error = null;
 
+try {
+  // URL de tu API de Django (asegúrate de que Django esté corriendo en 8000)
+  const apiUrl = 'http://127.0.0.1:8000/api/universidades/';
+  const response = await fetch(apiUrl);
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  universidades = await response.json();
+} catch (e) {
+  console.error("Error fetching data:", e);
+  error = e.message;
+}
+---
+<!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-        <h1 class="mb-4">Mi Astro App con Bootstrap</h1>
-        <button class="btn btn-primary">Botón de Bootstrap</button>
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Mi Aplicación Astro con Django</title>
+    <link rel="stylesheet" href="/output.css" />
+  </head>
+  <body class="bg-gray-100 p-8">
+    <main class="container mx-auto bg-white p-6 rounded-lg shadow-md">
+      <h1 class="text-3xl font-bold text-gray-800 mb-6">Lista de Universidades</h1>
+
+      {error && (
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+          <strong class="font-bold">¡Error!</strong>
+          <span class="block sm:inline"> {error}</span>
+        </div>
+      )}
+
+      {universidades.length === 0 && !error && (
+        <p class="text-lg text-gray-600">No hay universidades registradas o cargando...</p>
+      )}
+
+      {universidades.length > 0 && (
+        <ul class="list-none p-0 space-y-4">
+          {universidades.map((uni) => (
+            <li class="bg-gray-50 border border-gray-200 p-4 rounded-md shadow-sm" key={uni.id}>
+              <h5 class="text-xl font-semibold text-blue-700">{uni.nombre}</h5>
+              <p class="text-gray-700 mt-1">{uni.direccion}</p>
+            </li>
+          ))}
+        </ul>
+      )}
+    </main>
+  </body>
 </html>
